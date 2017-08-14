@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.syspersistence.model.Empresa;
 import br.com.syspersistence.model.Endereco;
@@ -37,14 +36,14 @@ public class EmpresaController {
 	}
 
 	@PostMapping("/salvar")
-	public String salvar(Empresa empresa, RedirectAttributes atributes) {
+	public String salvar(Empresa empresa) {
 
 		empresaRepository.save(empresa);
 		return "redirect:/empresa";
 	}
 
 	@PostMapping("endereco/salvar")
-	public String enderecoSalvar(Endereco endereco, RedirectAttributes atributes) {
+	public String enderecoSalvar(Endereco endereco) {
 		
 		enderecoRepository.save(endereco);
 		return "redirect:/empresa";
