@@ -1,0 +1,287 @@
+<!Doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <meta charset="UTF-8" />
+    <title>Sistema de Gestão de Empresa</title>
+</head>
+
+
+<body>
+
+    <nav id="index-nav" class="navbar navbar-transparent navbar-absolute" role="navigation">
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="btn-menu navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar">_</span>
+                <span class="icon-bar">_</span>
+				<span class="icon-bar">_</span>
+    		</button>
+                <a class="navbar-brand border-bottom-hover" href="#">Gestão de Empresas</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="/">HOME</a></li>
+
+                    <li><a href="/empresa">EMPRESA</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">SERVIÇOS<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/servico">SERVIÇO</a></li>
+                            <li><a href="#">CADASTRAR PREÇO</a></li>
+                            <li><a href="#">ALTERAR SERVIÇO</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- inicio do container -->
+        <section class="container">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                            <h3>Dados da empresa</h3>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="container-fluid">
+
+                                <!-- inicio do form -->
+                                <form action="/empresa/salvar" method="post">
+                                
+                                    <input type="hidden" name="id" th:unless="${empresa == null}" th:value="${empresa.id}"/>
+                                    
+
+                                    <div class="form-group">
+                                        <label for="nome" class="control-label">Nome</label>
+                                        <input type="text" class="form-control" id="nome" name="nome" th:unless="${empresa != null}" placeholder="Nome da empresa"/>
+                                        <input type="text" class="form-control" id="nome" name="nome" th:unless="${empresa == null}" th:value="${empresa.nome}" placeholder="Nome da empresa"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cnpj" class="control-label">CNPJ</label>
+                                        <input type="text" class="form-control" id="cnpj" name="cnpj" th:unless="${empresa != null}" placeholder="CNPJ"/>
+                                        <input type="text" class="form-control" id="cnpj" name="cnpj" th:unless="${empresa == null}" th:value="${empresa.cnpj}" placeholder="CNPJ"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ie" class="control-label">IE</label>
+                                        <input type="text" class="form-control" id="ie" name="ie" th:unless="${empresa != null}" placeholder="Inscrição Estadual"/>
+                                        <input type="text" class="form-control" id="ie" name="ie" th:unless="${empresa == null}" th:value="${empresa.ie}" placeholder="Inscrição Estadual"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telefone" class="control-label">Telefone</label>
+                                        <input type="text" class="form-control" id="telefone" name="telefone" th:unless="${empresa != null}" placeholder="Telefone"/>
+                                        <input type="text" class="form-control" id="telefone" name="telefone" th:unless="${empresa == null}" th:value="${empresa.telefone}" placeholder="Telefone"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                                <!-- fim do form -->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                            <h3>Endereço</h3>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="container-fluid">
+
+                                <!-- inicio do form -->
+                                <form action="/empresa/endereco/salvar" method="post">
+
+                                    <div class="row">
+
+                                        <input type="hidden" name="empresa" th:unless="${empresa == null}" th:value="${empresa.id}"/>
+                                        <input type="hidden" name="id" th:unless="${endereco == null}" th:value="${endereco.id}"/>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="cep" class="control-label">CEP</label>
+                                                <input type="text" class="form-control" id="cep" name="cep" th:unless="${endereco != null}" placeholder="CEP"/>
+                                                <input type="text" class="form-control" id="cep" name="cep" th:unless="${endereco == null}" th:value="${endereco.cep}" placeholder="CEP"/>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="bairro" class="control-label">Bairro</label>
+                                            <input type="text" class="form-control" id="bairro" name="bairro" th:unless="${endereco != null}" placeholder="Bairro"/>
+                                            <input type="text" class="form-control" id="bairro" name="bairro" th:unless="${endereco == null}" th:value="${endereco.bairro}" placeholder="Bairro"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="cidade-uf" class="control-label">Cidade - UF</label>
+                                            <input type="text" class="form-control" id="cidade-uf" name="cidadeUf" th:unless="${endereco != null}" placeholder="Cidade - UF"/>
+                                            <input type="text" class="form-control" id="cidade-uf" name="cidadeUf" th:unless="${endereco == null}" th:value="${endereco.cidadeUf}" placeholder="Cidade - UF"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="endereco" class="control-label">Endereço</label>
+                                            <input type="text" class="form-control" id="endereco" name="logradouro" th:unless="${endereco != null}" placeholder="Endereço"/>
+                                            <input type="text" class="form-control" id="endereco" name="logradouro" th:unless="${endereco == null}" th:value="${endereco.logradouro}" placeholder="Endereço"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="numero" class="control-label">Número</label>
+                                            <input type="text" class="form-control" id="numero" name="numero" th:unless="${endereco != null}" placeholder="Número"/>
+                                            <input type="text" class="form-control" id="numero" name="numero" th:unless="${endereco == null}" th:value="${endereco.numero}" placeholder="Número"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="complemento" class="control-label">Complemento</label>
+                                            <input type="text" class="form-control" id="complemento" name="complemento" th:unless="${endereco != null}" placeholder="Complemento"/>
+                                            <input type="text" class="form-control" id="complemento" name="complemento" th:unless="${endereco == null}" th:value="${endereco.complemento}" placeholder="Complemento"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+
+                            </form>
+                            <!-- fim do form -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            </div>
+
+            <!-- inicio do modal -->
+            <div class="modal fade" id="modal-aluno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Cadastro de Alunos</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!-- inicio do form -->
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="nome" class="col-sm-2 control-label">Nome</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="nome" placeholder="Nome"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="endereco" class="col-sm-2 control-label">Endereço</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="endereco" placeholder="Endereço"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefone" class="col-sm-2 control-label">Telefone</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="telefone" pattern="/d/{11}" placeholder="88988889999"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="site" class="col-sm-2 control-label">Site</label>
+                                    <div class="col-sm-10">
+                                        <input type="url" class="form-control" id="site" placeholder="http://www.seusite.com"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="btn-cadastrar" type="button" class="btn btn-primary"><span id="btn-modal">Cadastrar</span></button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group hide">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="btn-alterar" type="button" class="btn btn-warning"><span id="btn-modal">Alterar</span></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- fim do form -->
+                        </div>
+                        <div class="alert alert-success" style="display:none" role="alert">Aluno cadastrado com sucesso!!!</div>
+                        <div class="alert alert-danger" style="display:none" role="alert"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            <button id="limpar-campos" type="button" class="btn btn-primary">Limpar Campos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- inicio do modal -->
+
+        </section>
+        <!-- fim do container -->
+    </main>
+
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
