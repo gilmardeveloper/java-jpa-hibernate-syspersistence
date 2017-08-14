@@ -31,18 +31,7 @@
 				<ul class="nav navbar-nav">
                     <li class=""><a href="/">HOME</a></li>
 					<li><a href="/empresa">EMPRESA</a></li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">SERVIÇOS<b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="/servico">SERVIÇO</a></li>
-							<li><a href="#">CADASTRAR PREÇO</a></li>
-							<li><a href="#">ALTERAR SERVIÇO</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-							<li class="divider"></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul>
-					</li>
+					<li><a href="/servico">SERVIÇO</a></li>
 				</ul>
 			</div>
 		</div>
@@ -60,95 +49,23 @@
 
                 <!-- inicio da tabela -->
                 <div id="tabela" class="container col-sm-10">
-                    <table class="table">
+                    <table class="table" th:each="servico : ${servicos}" th:unless="${servicos == null}">
                         <thead>
                             <tr>
-                                <th>NOME</th>
-                                <th>DESCRIÇÃO</th>
-                                <th>VALORES</th>
+                                <th th:text="${servico.nome}"></th>
+                                <th th:text="${servico.descricao}"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="servico : ${servicos}" th:unless="${servicos != null}">
-                                <td th:text="${servico.nome}"></td>
-                                <td th:text="${servico.descricao}"></td>
-                                <td><a th:ref="@{/valores/${servico.id}}" th:text="ver valor"></a></td>
+                            <tr th:each="preco : ${servico.precos}">
+                                 <td th:text="${preco.tipo.valor}"></td>
+                                 <td th:text="${preco.valorFormatado}"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- fim da tabela -->
-
-                <div class="container col-sm-2 navbar-fixed-bottom navbar-right">
-                    <button id="btn-add" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal-aluno"><span aria-hidden="true">+</span></button>
-                </div>
-
-
             </div>
-
-            <!-- inicio do modal -->
-            <div class="modal fade" id="modal-aluno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Cadastro de Alunos</h4>
-                        </div>
-                        <div class="modal-body">
-                            <!-- inicio do form -->
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="nome" class="col-sm-2 control-label">Nome</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="nome" placeholder="Nome"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="endereco" class="col-sm-2 control-label">Endereço</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="endereco" placeholder="Endereço"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="telefone" class="col-sm-2 control-label">Telefone</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="telefone" pattern="/d/{11}" placeholder="88988889999"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="site" class="col-sm-2 control-label">Site</label>
-                                    <div class="col-sm-10">
-                                        <input type="url" class="form-control" id="site" placeholder="http://www.seusite.com"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button id="btn-cadastrar" type="button" class="btn btn-primary"><span id="btn-modal">Cadastrar</span></button>
-                                    </div>
-                                </div>
-
-                                <div class="form-group hide">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button id="btn-alterar" type="button" class="btn btn-warning"><span id="btn-modal">Alterar</span></button>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- fim do form -->
-                        </div>
-                        <div class="alert alert-success" style="display:none" role="alert">Aluno cadastrado com sucesso!!!</div>
-                        <div class="alert alert-danger" style="display:none" role="alert"></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                            <button id="limpar-campos" type="button" class="btn btn-primary">Limpar Campos</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- inicio do modal -->
 
         </section>
         <!-- fim do container -->

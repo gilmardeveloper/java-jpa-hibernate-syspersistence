@@ -30,7 +30,7 @@ public class ServicoController {
 	
 	@Autowired
 	private PrecoRepository valorRepository;
-	
+		
 
 	@GetMapping
 	public String servico(Servico servico, Model model) {
@@ -57,8 +57,7 @@ public class ServicoController {
 	}
 	
 	@PostMapping("valor/salvar")
-	public String valorSalvar(Preco preco) {
-				
+	public String valorSalvar(Preco preco){
 		valorRepository.save(preco);
 		return "redirect:/servico";
 	}

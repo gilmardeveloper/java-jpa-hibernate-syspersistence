@@ -4,29 +4,46 @@ import java.io.Serializable;
 
 import javax.money.MonetaryAmount;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import br.com.syspersistence.converter.ValorConverter;
 
 // <td th:text="${new java.text.DecimalFormat('$#,##0.00;$-#,##0.00').format(value)}" />
 
 @Entity
-public class Preco implements Serializable{
+public class Preco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Enumerated(EnumType.STRING)
 	private TipoValor tipo;
-		
+
 	private MonetaryAmount valor;
-	
+
 	@OneToOne
 	private Servico servico;
-	
+
+	@Transient
+	private ValorConverter converter;
+
+	public Preco() {
+		this(new ValorConverter());
+	}
+
+	public Preco(ValorConverter converter) {
+		this.converter = converter;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +76,10 @@ public class Preco implements Serializable{
 		this.servico = servico;
 	}
 
+	public String getValorFormatado() {
+		return converter.toString(valor);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,6 +104,5 @@ public class Preco implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
