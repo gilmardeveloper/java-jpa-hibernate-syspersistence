@@ -11,6 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+
 @Entity
 public class Servico implements Serializable {
 
@@ -29,6 +33,7 @@ public class Servico implements Serializable {
 	private Empresa empresa;
 	
 	@OneToMany(mappedBy = "servico")
+	@Cascade(CascadeType.DELETE)
 	private List<Preco> precos;
 	
 	public Long getId() {

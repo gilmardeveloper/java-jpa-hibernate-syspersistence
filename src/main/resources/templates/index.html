@@ -2,34 +2,37 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/main.css" />
-    <meta charset="UTF-8"/>
-    <title>Sistema de Gestão de Empresa</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous"/>
+<link rel="stylesheet" href="css/main.css" />
+<meta charset="UTF-8" />
+<title>Sistema de Gestão de Empresa</title>
 </head>
 
 
 <body>
-   
-    <nav id="index-nav" class="navbar navbar-transparent navbar-absolute" role="navigation">
-		
+
+	<nav id="index-nav" class="navbar navbar-transparent navbar-absolute"
+		role="navigation">
+
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="btn-menu navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar">_</span>
-                <span class="icon-bar">_</span>
-				<span class="icon-bar">_</span>
-    		</button>
+				<button type="button" class="btn-menu navbar-toggle"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar">_</span> <span class="icon-bar">_</span> <span
+						class="icon-bar">_</span>
+				</button>
 				<a class="navbar-brand border-bottom-hover">Gestão de Empresas</a>
 			</div>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-                    <li class=""><a href="/">HOME</a></li>
+					<li class=""><a href="/">HOME</a></li>
 					<li><a href="/empresa">EMPRESA</a></li>
 					<li><a href="/servico">SERVIÇO</a></li>
 				</ul>
@@ -37,43 +40,122 @@
 		</div>
 	</nav>
 
-    <main>
-        <!-- inicio do container -->
-        <section class="container">
+	<main> <!-- inicio do container -->
+	<section class="container">
 
-            <div class="row">
+		<div class="row">
 
-                <div class="container col-sm-12 pull-left">
-                    <h3 class="text-center">Relação de serviços cadastrados</h3>
-                </div>
+			<div class="container col-sm-12 pull-left">
+				<h3 class="text-center">Relação de serviços cadastrados</h3>
+			</div>
 
-                <!-- inicio da tabela -->
-                <div id="tabela" class="container col-sm-10">
-                    <table class="table" th:each="servico : ${servicos}" th:unless="${servicos == null}">
-                        <thead>
-                            <tr>
-                                <th th:text="${servico.nome}"></th>
-                                <th th:text="${servico.descricao}"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="preco : ${servico.precos}">
-                                 <td th:text="${preco.tipo.valor}"></td>
-                                 <td th:text="${preco.valorFormatado}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- fim da tabela -->
-            </div>
+			<!-- inicio da tabela -->
+			<div id="tabela" class="container col-sm-10">
+				<table class="table" th:each="servico : ${servicos}"
+					th:unless="${servicos == null}">
+					<thead>
+						<tr>
+							<th th:text="${servico.nome}"></th>
+							<th th:text="${servico.descricao}"></th>
+							<th><span class="label label-default back">A</span></th>
+							<th><span class="label label-default back">R</span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="preco : ${servico.precos}">
+							<td th:text="${preco.tipo.valor}"></td>
+							<td th:text="${preco.valorFormatado}"></td>
+							<td><a class="alterar-valor" th:href="@{rs/servico/valor/{id}(id=${preco.id})}"><span
+									class="glyphicon glyphicon-pencil"></span></a></td>
+							<td><a th:attr="onclick = ${ 'modalRemover(' + preco.id + ')' }" href="#"><span
+									class="glyphicon glyphicon-trash"></span></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- fim da tabela -->
+		</div>
 
-        </section>
-        <!-- fim do container -->
-    </main>
+	</section>
+	<!-- fim do container -->
 
-    <script src="js/jquery-3.1.0.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+
+	<div id="modal-deletar-preco" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Aviso</h4>
+				</div>
+				<div class="modal-body">
+					<p>Deseja excluir esse serviço da base de dados?</p>
+					<form action="/servico/valor/deletar" method="post">
+					<input id="modal-deletar-preco-id" type="hidden" name="id"/> 
+					<button type="submit" class="btn btn-default">Deletar</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	
+	<!-- inicio do modal -->
+	<div class="modal fade" id="modal-valor-alterar" tabindex="-1" role="dialog" aria-labelledby="modal-valor-titulo">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modal-valor-servico-nome">Serviço</h4>
+				</div>
+				<div class="modal-body">
+					<!-- inicio do form -->
+					<form id="form-valor-salvar" action="/servico/valor/salvar" method="post">
+
+						<input id="modal-valor-alterar-servico" type="hidden" name="servico" />
+						<input id="modal-valor-alterar-id" type="hidden" name="id" />
+						<input id="modal-valor-tipo-alterar" type="hidden" name="tipo" />
+					   
+						<div class="form-group">
+							<label for="valor" class="control-label">Valor </label>
+							<input id="modal-valor-formatado-alterar" class="form-control" type="text" disabled="disabled"/>
+						</div>
+
+						<div class="form-group">
+							<label for="valor" class="control-label">Novo valor </label>
+							 <input id="modal-valor-novo-alterar" class="form-control" type="text" name="valor" data-symbol="$" />
+						</div>
+
+						<div class="form-group">
+							<div>
+								<button id="btn-valor-salvar" type="submit" class="btn btn-primary">Salvar</button>
+							</div>
+						</div>
+
+					</form>
+					<!-- fim do form -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- inicio do modal -->
+
+</main>
+
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdn.rawgit.com/gilmardeveloper/jquery-plugin-inputmask-brl/master/js/mask.js"></script>
+	<script src="js/main.js"></script>
 
 </body>
 

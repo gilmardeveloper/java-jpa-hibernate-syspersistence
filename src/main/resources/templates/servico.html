@@ -4,7 +4,8 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous"/>
     <link rel="stylesheet" href="css/main.css" />
     <meta charset="UTF-8" />
     <title>Sistema de Gestão de Empresa</title>
@@ -41,7 +42,7 @@
 
             <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-md-4">
 
                     <div class="panel panel-primary">
 
@@ -93,7 +94,7 @@
 
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-8">
 
                     <div class="panel panel-primary">
 
@@ -112,14 +113,21 @@
                                             <tr>
                                                 <th>NOME</th>
                                                 <th>DESCRIÇÃO</th>
-                                                <th>VALORES</th>
+                                                <th>V</th>
+                                                <th>A</th>
+                                                <th>R</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="servico : ${servicos}" th:unless="${servicos == null}">
                                                 <td th:text="${servico.nome}"></td>
                                                 <td th:text="${servico.descricao}"></td>
-                                                <td><a class="adicionar-valor" th:href="@{rs/servico/{id}/adicionar/valor(id=${servico.id})}">adicionar valor</a></td>
+                                                <td><a class="adicionar-valor" th:href="@{rs/servico/{id}/adicionar/valor(id=${servico.id})}"><span
+                                                    class="glyphicon glyphicon-plus"></span></a></td>
+                                                <td><a class="alterar-servico" th:href="@{rs/servico/{id}/alterar(id=${servico.id})}"><span
+                                                    class="glyphicon glyphicon-pencil"></span></a></td>
+                                                <td><a th:attr="onclick = ${ 'modalServicoRemover(' + servico.id + ')' }" href="#"><span
+                                                    class="glyphicon glyphicon-trash"></span></a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -155,7 +163,7 @@
                                
                                 <div class="form-group">
                                     <label for="valor" class="control-label">Valor R$</label>
-                                     <input id="id-valor-salvar" class="form-control" type="text" name="valor" placeholder="valor" />
+                                     <input id="id-valor-salvar" class="form-control" type="text" name="valor" placeholder="valor" data-symbol="$" />
 
                                 </div>
 
@@ -186,12 +194,81 @@
             </div>
             <!-- inicio do modal -->
 
+            <div id="modal-deletar-servico" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Aviso</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Deseja excluir esse serviço da base de dados?</p>
+                                <form action="/servico/deletar" method="post">
+                                <input id="modal-deletar-servico-id" type="hidden" name="id"/> 
+                                <button type="submit" class="btn btn-default">Deletar</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+                <!-- inicio do modal -->
+	<div class="modal fade" id="modal-servico-alterar" tabindex="-1" role="dialog" aria-labelledby="modal-valor-titulo">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modal-valor-servico-nome">Serviço</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- inicio do form -->
+                        <form action="/servico/salvar" method="post">
+    
+                            <input id="modal-servico-alterar-id" type="hidden" name="id" />
+                            <input id="modal-servico-alterar-empresa" type="hidden" name="empresa" />
+    
+                            <div class="form-group">
+                                <label for="nome" class="control-label">Nome</label>
+                                <input type="text" class="form-control" id="modal-servico-alterar-nome" name="nome"  />
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="cnpj" class="control-label">Descrição</label>
+                                <input type="text" class="form-control" id="modal-servico-alterar-descricao" name="descricao" />
+                            </div>
+    
+                            <div class="form-group">
+                                <div>
+                                   <button type="submit" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </div>
+                            </form>
+                            <!-- fim do form -->                      
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- inicio do modal -->
+
         </section>
         <!-- fim do container -->
     </main>
 
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.rawgit.com/gilmardeveloper/jquery-plugin-inputmask-brl/master/js/mask.js"></script>
     <script src="js/main.js"></script>
 
 </body>

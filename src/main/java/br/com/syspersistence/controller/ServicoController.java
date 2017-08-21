@@ -56,10 +56,28 @@ public class ServicoController {
 		return "redirect:/servico";
 	}
 	
+	@PostMapping("/deletar")
+	public String salvar(Long id) {
+		servicoRepository.delete(id);
+		return "redirect:/servico";
+	}
+	
 	@PostMapping("valor/salvar")
 	public String valorSalvar(Preco preco){
 		valorRepository.save(preco);
 		return "redirect:/servico";
+	}
+	
+	@PostMapping("valor/alterar")
+	public String valorAlterar(Preco preco){
+		valorRepository.save(preco);
+		return "redirect:/";
+	}
+	
+	@PostMapping("valor/deletar")
+	public String valorDeletar(Long id){
+		valorRepository.delete(id);
+		return "redirect:/";
 	}
 	
 }
